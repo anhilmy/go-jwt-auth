@@ -1,0 +1,8 @@
+db_name: jwt_auth
+db_port: 5432
+db_host: localhost
+db_user: admin
+db_password: admin123
+
+dsn: "postgres://$(db_host):$(db_port)/$(db_name)?sslmode=disable&user=$(db_user)&password=$(db_password)"
+jwt_signing_key: "TfpLCZ3VemKCCooNnzhSmgi0FqQ/YQmPsyiirfih+m4="
