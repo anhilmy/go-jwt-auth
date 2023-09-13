@@ -4,11 +4,12 @@ MIGRATE := docker run --rm -v $(shell pwd)/migrations:/migrations --network host
 DB_USER ?= $(shell sed -n 's/^db_user:[[:space:]]*"\(.*\)"/\1/p' $(CONFIG_FILE))
 DB_PASSWORD ?= $(shell sed -n 's/^db_password:[[:space:]]*"\(.*\)"/\1/p' $(CONFIG_FILE))
 DB_NAME ?= $(shell sed -n 's/^db_name:[[:space:]]*"\(.*\)"/\1/p' $(CONFIG_FILE))
+DB_PORT ?= $(shell sed -n 's/^db_port:[[:space:]]*"\(.*\)"/\1/p' $(CONFIG_FILE))
 
 .PHONY: db-start
 db-start: ## start the database server
-	@mkdir -p testdata/postgres
-	docker run --rm --name postgres -v $(shell pwd)/testdata:/testdata \
+	@mkdir -m 777 -p testdata/postgres
+	docker run --rm --name "$(DB_NAME)" -v $(shell pwd)/testdata:/testdata \
 		-v $(shell pwd)/testdata/postgres:/var/lib/postgresql/data \
-		-e POSTGERS_USER="$(DB_USER)" -e POSTGRES_PASSWORD="$(DB_PASSWORD)" -e POSTGRES_DB="$(DB_NAME)" -d -p 5432:5432 postgis/postgis:14-3.2
+		-e POSTGERS_USER="$(DB_USER)" -e POSTGRES_PASSWORD="$(DB_PASSWORD)" -e POSTGRES_DB="$(DB_NAME)" -d -p $(DB_PORT):5432 postgis/postgis:14-3.2 \
 		--platform linux/arm64/v8
