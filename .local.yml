@@ -1,10 +1,7 @@
 db_name: "jwt_auth"
 db_port: "5431"
-db_host: "localhost"
-db_user: "admin"
+db_host: "host.docker.internal"
+db_user: "postgres"
 db_password: "admin123"
-
-# dsn: "postgres://${{ db_host }}:$(db_port)/*(db_name)?sslmode=disable&user=*(db_user)&password=*(db_password)"
-dsn: "${{ format('postgres://{0}:{1}/{2}?sslmode-disable&user={3}&password={4}, db_host, db_port, db_name, db_user, db_password) }}"
 
 jwt_signing_key: "TfpLCZ3VemKCCooNnzhSmgi0FqQ/YQmPsyiirfih+m4="
