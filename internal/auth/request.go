@@ -2,6 +2,8 @@ package auth
 
 import (
 	"go-jwt-auth/models"
+	"html"
+	"strings"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
@@ -23,7 +25,7 @@ func (r RegisterRequest) Validate() error {
 
 func (r RegisterRequest) ToUserModel() (*models.User, error) {
 	return &models.User{
-		Username: r.Username,
+		Username: html.EscapeString(strings.TrimSpace(r.Username)),
 		Password: r.Password,
 		Email:    r.Email,
 	}, nil

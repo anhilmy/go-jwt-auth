@@ -1,6 +1,10 @@
 package auth
 
-import "context"
+import (
+	"context"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 type Service interface {
 	Register(context.Context, RegisterRequest) (*RegisterResponse, error)
@@ -21,6 +25,12 @@ func (s service) Register(ctx context.Context, req RegisterRequest) (*RegisterRe
 		return nil, err
 	}
 
+	hashed, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, err
+	}
+
+	newUser.Password = string(hashed)
 	if err := s.UserRepo.Create(ctx, newUser); err != nil {
 		return nil, err
 	}
