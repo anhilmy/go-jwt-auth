@@ -31,6 +31,10 @@ func NewRepository(db *database.Database) Repository {
 
 // Create implements Repository.
 func (r repository) Create(ctx context.Context, user *models.User) error {
+
+	if err := user.HashPassword(); err != nil {
+		return err
+	}
 	if err := r.isUnique(ctx, user); err != nil {
 		return err
 	}

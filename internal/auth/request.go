@@ -17,9 +17,9 @@ type RegisterRequest struct {
 
 func (r RegisterRequest) Validate() error {
 	return validation.ValidateStruct(&r,
-		validation.Field(r.Email, is.Email, validation.Required),
-		validation.Field(r.Username, validation.Required),
-		validation.Field(r.Password, validation.Required),
+		validation.Field(&r.Email, is.Email, validation.Required),
+		validation.Field(&r.Username, validation.Required),
+		validation.Field(&r.Password, validation.Required),
 	)
 }
 
@@ -29,4 +29,16 @@ func (r RegisterRequest) ToUserModel() (*models.User, error) {
 		Password: r.Password,
 		Email:    r.Email,
 	}, nil
+}
+
+type LoginRequest struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+func (r LoginRequest) Validate() error {
+	return validation.ValidateStruct(&r,
+		validation.Field(&r.Username, validation.Required),
+		validation.Field(&r.Password, validation.Required),
+	)
 }
