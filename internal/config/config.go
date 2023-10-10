@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
 	validation "github.com/go-ozzo/ozzo-validation"
@@ -9,18 +10,18 @@ import (
 )
 
 type Config struct {
-	DbName     string
-	DbPort     string
-	DbHost     string
-	DbUser     string
-	DbPassword string
+	DbName     string `yaml:"db_name"`
+	DbPort     string `yaml:"db_port"`
+	DbHost     string `yaml:"db_host"`
+	DbUser     string `yaml:"db_user"`
+	DbPassword string `yaml:"db_password"`
 
-	JWTSigningKey     string
-	TokenHourLifeSpan string
+	JWTSigningKey     string `yaml:"jwt_signing_key"`
+	TokenHourLifeSpan int    `yaml:"token_hour_lifespan"`
 }
 
 const (
-	defaultTokenLifespan = "1"
+	defaultTokenLifespan = 1
 )
 
 func (c Config) Validate() error {
@@ -39,7 +40,9 @@ func Load(file string) (*Config, error) {
 		TokenHourLifeSpan: defaultTokenLifespan,
 	}
 
-	buf, err := os.ReadFile(file)
+	path := fmt.Sprintf("./%s", file)
+	fmt.Println(path)
+	buf, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}

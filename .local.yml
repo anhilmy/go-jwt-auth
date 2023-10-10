@@ -5,3 +5,4 @@ db_user: "postgres"
 db_password: "admin123"
 
 jwt_signing_key: "TfpLCZ3VemKCCooNnzhSmgi0FqQ/YQmPsyiirfih+m4="
+token_hour_lifespan: 1
